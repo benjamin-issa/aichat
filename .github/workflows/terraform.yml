@@ -1,0 +1,66 @@
+name: Terraform CI/CD
+
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      TF_VAR_domain_name: ${{ vars.TF_VAR_DOMAIN_NAME }}
+      TF_VAR_openai_api_key: ${{ secrets.TF_VAR_OPENAI_API_KEY }}
+      TF_VAR_claude_api_key: ${{ secrets.TF_VAR_CLAUDE_API_KEY }}
+      TF_VAR_creds_key: ${{ secrets.TF_VAR_CREDS_KEY }}
+      TF_VAR_creds_iv: ${{ secrets.TF_VAR_CREDS_IV }}
+      TF_VAR_smtp_host: ${{ vars.TF_VAR_SMTP_HOST }}
+      TF_VAR_smtp_username: ${{ secrets.TF_VAR_SMTP_USERNAME }}
+      TF_VAR_smtp_password: ${{ secrets.TF_VAR_SMTP_PASSWORD }}
+      TF_VAR_documentdb_master_password: ${{ secrets.TF_VAR_DOCUMENTDB_MASTER_PASSWORD }}
+      TF_VAR_acm_certificate_arn: ${{ vars.TF_VAR_ACM_CERTIFICATE_ARN }}
+      TF_VAR_smtp_tls: ${{ vars.TF_VAR_SMTP_TLS }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.0"
+
+      - name: Terraform Init
+        run: terraform init -input=false
+
+      - name: Terraform Plan
+        if: github.event_name == 'pull_request'
+        run: |
+          terraform plan -input=false -no-color -out=tfplan
+          terraform show -no-color tfplan > plan.txt
+          echo '```terraform' > plan.md
+          cat plan.txt >> plan.md
+          echo '```' >> plan.md
+
+      - name: Add plan as comment
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: terraform/plan.md
+
+      - name: Terraform Apply
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: terraform apply -input=false -auto-approve 
