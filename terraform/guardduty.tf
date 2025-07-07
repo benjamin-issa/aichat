@@ -1,13 +1,11 @@
-# Enable GuardDuty
+# Enable GuardDuty with ECS runtime monitoring
 resource "aws_guardduty_detector" "this" {
   enable = true
-}
 
-# Enable all available features including ECS runtime monitoring
-resource "aws_guardduty_feature" "ecs_runtime" {
-  detector_id = aws_guardduty_detector.this.id
-  name        = "ECS_RUNTIME_MONITORING"
-  status      = "ENABLED"
+  feature {
+    name   = "ECS_RUNTIME_MONITORING"
+    status = "ENABLED"
+  }
 }
 
 # SNS Topic for notifications
