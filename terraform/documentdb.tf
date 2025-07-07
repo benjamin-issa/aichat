@@ -8,7 +8,7 @@ resource "aws_docdb_subnet_group" "librechat" {
 resource "aws_docdb_cluster" "librechat" {
   cluster_identifier = "librechat-docdb"
   engine             = "docdb"
-  engine_version     = "5.0"  # MongoDB 5 compatibility
+  engine_version     = "5.0.0"  # MongoDB 5 compatibility
   master_username    = var.documentdb_master_username
   master_password    = var.documentdb_master_password
   skip_final_snapshot = true
