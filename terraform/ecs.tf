@@ -92,6 +92,7 @@ resource "aws_ecs_service" "librechat" {
   task_definition = aws_ecs_task_definition.librechat.arn
   desired_count   = 1
   launch_type     = "FARGATE"
+  force_new_deployment = true
 
   network_configuration {
     subnets         = data.aws_subnets.public.ids
