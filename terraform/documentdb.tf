@@ -20,6 +20,6 @@ resource "aws_docdb_cluster" "librechat" {
 resource "aws_docdb_cluster_instance" "librechat" {
   identifier        = "librechat-docdb-0"
   cluster_identifier = aws_docdb_cluster.librechat.id
-  instance_class     = "db.t3.micro"  # free tier eligible
+  instance_class     = "db.t4g.medium"  # smallest supported for DocDB 5.0
   engine             = aws_docdb_cluster.librechat.engine
 } 
