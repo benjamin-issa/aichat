@@ -48,25 +48,6 @@ resource "aws_wafv2_web_acl" "librechat" {
       sampled_requests_enabled   = true
     }
   }
-
-  rule {
-    name     = "AWS-AWSManagedRulesSQLiRuleSet"
-    priority = 3
-    override_action {
-      none {}
-    }
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesSQLiRuleSet"
-        vendor_name = "AWS"
-      }
-    }
-    visibility_config {
-      metric_name                = "SQLiRuleSet"
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-    }
-  }
 }
 
 # Associate WAF with the ALB
