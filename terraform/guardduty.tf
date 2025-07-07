@@ -13,6 +13,10 @@ resource "aws_guardduty_detector_feature" "ecs_runtime" {
     name   = "ECS_FARGATE_AGENT_MANAGEMENT"
     status = "ENABLED"
   }
+
+  lifecycle {
+    ignore_changes = [additional_configuration]
+  }
 }
 
 # SNS Topic for notifications
