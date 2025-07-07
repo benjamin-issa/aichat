@@ -61,7 +61,7 @@ resource "aws_ecs_task_definition" "librechat" {
         { name = "ANTHROPIC_API_KEY", value = var.claude_api_key },
         { name = "CREDS_KEY", value = var.creds_key },
         { name = "CREDS_IV", value = var.creds_iv },
-        { name = "MONGODB_URI", value = aws_docdb_cluster.librechat.endpoint },
+        { name = "MONGODB_URI", value = "mongodb://${var.documentdb_master_username}:${var.documentdb_master_password}@${aws_docdb_cluster.librechat.endpoint}:27017/librechat?ssl=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false" },
         { name = "EMAIL_SMTP_HOST", value = var.smtp_host },
         { name = "EMAIL_SMTP_PORT", value = tostring(var.smtp_port) },
         { name = "EMAIL_SMTP_USERNAME", value = var.smtp_username },
