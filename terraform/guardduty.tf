@@ -6,8 +6,13 @@ resource "aws_guardduty_detector" "this" {
 # Enable ECS runtime monitoring feature on the detector
 resource "aws_guardduty_detector_feature" "ecs_runtime" {
   detector_id = aws_guardduty_detector.this.id
-  name        = "ECS_RUNTIME_MONITORING"
+  name        = "RUNTIME_MONITORING"
   status      = "ENABLED"
+
+  additional_configuration {
+    name   = "ECS_FARGATE_AGENT_MANAGEMENT"
+    status = "ENABLED"
+  }
 }
 
 # SNS Topic for notifications
