@@ -46,13 +46,6 @@ resource "aws_cloudwatch_event_target" "sns" {
   arn       = aws_sns_topic.guardduty.arn
 }
 
-resource "aws_lambda_permission" "allow_events" {
-  statement_id  = "AllowExecutionFromEvents"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_sns_topic.guardduty.arn  # placeholder
-  principal     = "events.amazonaws.com"
-}
-
 # VPC endpoint for GuardDuty data plane (required for ECS runtime monitoring)
 resource "aws_vpc_endpoint" "guardduty_data" {
   vpc_id       = data.aws_vpc.default.id
