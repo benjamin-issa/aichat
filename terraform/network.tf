@@ -25,8 +25,8 @@ resource "aws_lb_target_group" "librechat" {
   target_type = "ip"
   vpc_id      = data.aws_vpc.default.id
   health_check {
-    path                = "/"
-    matcher             = "200"
+    path                = "/api/auth/status"
+    matcher             = "200-399"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2
