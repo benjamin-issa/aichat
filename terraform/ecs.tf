@@ -68,7 +68,7 @@ resource "aws_ecs_task_definition" "librechat" {
         { name = "EMAIL_SMTP_PASSWORD", value = var.smtp_password },
         { name = "EMAIL_SMTP_SECURE", value = var.smtp_tls ? "true" : "false" },
         { name = "DISABLE_SOCIAL_LOGIN", value = "true" },
-        { name = "ALLOW_SIGNUP", value = "false" },
+        { name = "ALLOW_SIGNUP", value = "true" },
         { name = "NODE_ENV", value = "production" },
         { name = "JWT_SECRET", value = var.jwt_secret },
         { name = "JWT_REFRESH_SECRET", value = var.jwt_refresh_secret }
