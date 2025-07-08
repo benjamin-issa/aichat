@@ -91,7 +91,7 @@ variable "librechat_image" {
 variable "librechat_container_port" {
   description = "Port the LibreChat container listens on"
   type        = number
-  default     = 3000
+  default     = 3080
 }
 
 variable "jwt_secret" {
