@@ -33,8 +33,8 @@ jobs:
       TF_VAR_documentdb_master_password: ${{ secrets.TF_VAR_DOCUMENTDB_MASTER_PASSWORD }}
       TF_VAR_acm_certificate_arn: ${{ vars.TF_VAR_ACM_CERTIFICATE_ARN }}
       TF_VAR_smtp_tls: ${{ vars.TF_VAR_SMTP_TLS }}
-      TF_VAR_jwt_secret: ${{ vars.TF_VAR_JWT_SECRET }}
-      TF_VAR_jwt_refresh_secret: ${{ vars.TF_VAR_JWT_REFRESH_SECRET }}
+      TF_VAR_jwt_secret: ${{ vars.JWT_SECRET }}
+      TF_VAR_jwt_refresh_secret: ${{ vars.JWT_REFRESH_SECRET }}
 
     steps:
       - name: Checkout repo
