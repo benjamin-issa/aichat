@@ -92,4 +92,16 @@ variable "librechat_container_port" {
   description = "Port the LibreChat container listens on"
   type        = number
   default     = 3000
+}
+
+variable "jwt_secret" {
+  description = "Secret key for JWT authentication"
+  type        = string
+  sensitive   = true
+}
+
+variable "jwt_refresh_secret" {
+  description = "Secret key for JWT refresh tokens"
+  type        = string
+  sensitive   = true
 } 
